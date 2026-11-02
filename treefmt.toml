@@ -1,10 +1,14 @@
 # the formatters come from the flake, run `treefmt` in `nix develop` or `nix fmt`
 tree-root-file = "flake.nix"
-# zig's cache and what cubemx generates aren't ours
+# zig's cache and what cubemx generates aren't ours. in a cubemx folder only
+# files you add to Core get formatted
 excludes = [
   ".direnv", "build/*", "*/build/*", "*/.zig-cache/*", "*/zig-out/*",
-  "Drivers/*", "*/Drivers/*", "Middlewares/*", "*/Middlewares/*",
-  "*/CMakePresets.json",
+  "*/Drivers/*", "*/Middlewares/*", "*/cmake/*", "*/.settings/*",
+  "*/CMakePresets.json", "*/README.md", "*/INSTALL.md",
+  "*/Core/Inc/main.h", "*/Core/Inc/stm32h5xx_*",
+  "*/Core/Src/main.c", "*/Core/Src/stm32h5xx_*", "*/Core/Src/system_*",
+  "*/Core/Src/syscalls.c", "*/Core/Src/sysmem.c",
 ]
 
 [formatter.nix]

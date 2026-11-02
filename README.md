@@ -107,9 +107,15 @@ The VCP is USART2 on PA2/PA3. Arduino D0/D1 is USART1 on PB15/PB14.
 
 ## CubeMX
 
-Generate into its own folder next to `blink` with CMake as the toolchain.
-Its `CMakePresets.json` has Debug and Release, so `just flash <folder>`
-works. treefmt skips what it generates.
+Generate into its own folder next to `blink`. In Project Manager pick CMake
+as the toolchain, GCC as the compiler (ST's default, starm-clang, isn't in
+nixpkgs) and "copy only the necessary library files". Name the project after
+its folder, `just` looks for `<folder>/build/<mode>/<folder>.elf`.
+
+The `.ioc` is the source. Regenerating keeps only what sits between the
+`USER CODE BEGIN` and `USER CODE END` lines, so keep `main.c` to a call into
+a file of your own, like `Core/Src/app.c`. treefmt skips what CubeMX
+writes and formats only those files.
 
 ## Sources
 

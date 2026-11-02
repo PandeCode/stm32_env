@@ -73,6 +73,8 @@ A program's Makefile:
 - `uart`: a shell on the virtual com port, `on`, `off`, `toggle`
 - `temp`: the chip's temperature and VDDA on the virtual com port, from
   the ADC and ST's factory calibration
+- `gfx`: CubeMX and HAL, the course's port of Adafruit's GFX and ST7735
+  libraries drawing on the TFT shield over SPI2
 - `tft`: Adafruit's 1.8" TFT shield v2 (802). The joystick moves a square,
   pressing it changes the color, A/B/C set the backlight
 
@@ -95,6 +97,9 @@ MISO is only for the SD card.
 D13 is LD2 too, so it flickers while the screen draws. The SD slot isn't
 used yet.
 
+`gfx` uses SPI2 instead, which leaves D13 alone: ICSP SCK (3) to PB2 (CN10
+pin 22) and MOSI (4) to PC1 (A4).
+
 ## Board
 
 Upstream OpenOCD 0.12 has no STM32H5 support, so it's pyocd:
@@ -116,6 +121,12 @@ The `.ioc` is the source. Regenerating keeps only what sits between the
 `USER CODE BEGIN` and `USER CODE END` lines, so keep `main.c` to a call into
 a file of your own, like `Core/Src/app.c`. treefmt skips what CubeMX
 writes and formats only those files.
+
+`gfx` is the course's
+[graphics library](https://github.com/vernamlab/ECE2049-STM32-Adafruit-Graphics-Library)
+project (BSD and MIT), with the project renamed and GCC picked. Start a new
+one with `cp -r gfx <name>`, rename `gfx.ioc` and the project name in it and
+in `CMakeLists.txt`, then open it with `just cubemx`.
 
 ## Sources
 

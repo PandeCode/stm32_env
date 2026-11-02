@@ -1,0 +1,10 @@
+# hover and completion for gas on 32-bit arm (thumb-2 included). diagnostics
+# come from running the file's command in build/compile_commands.json, a
+# file the build does not know gets none rather than a host gcc run
+[default_config]
+assembler = "gas"
+instruction_set = "arm"
+
+[default_config.opts]
+diagnostics = true
+default_diagnostics = false

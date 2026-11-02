@@ -1,0 +1,5 @@
+# stm32h5xx.h only picks the chip's header, stm32h533xx.h, so clangd sees
+# nothing used from it and calls it unused
+Diagnostics:
+  Includes:
+    IgnoreHeader: [stm32h5xx\.h]

@@ -1,0 +1,32 @@
+# the formatters come from the flake, run `treefmt` in `nix develop` or `nix fmt`
+tree-root-file = "flake.nix"
+# zig's cache and what cubemx generates aren't ours
+excludes = [
+  ".direnv", "build/*", "*/build/*", "*/.zig-cache/*", "*/zig-out/*",
+  "Drivers/*", "*/Drivers/*", "Middlewares/*", "*/Middlewares/*",
+  "*/CMakePresets.json",
+]
+
+[formatter.nix]
+command = "nixfmt"
+includes = ["*.nix"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--write"]
+includes = ["*.md", "*.json", "*.yaml"]
+
+[formatter.c]
+command = "clang-format"
+options = ["-i"]
+includes = ["*.c", "*.h"]
+
+[formatter.zig]
+command = "zig"
+options = ["fmt"]
+includes = ["*.zig"]
+
+[formatter.python]
+command = "ruff"
+options = ["format"]
+includes = ["*.py"]

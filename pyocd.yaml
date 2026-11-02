@@ -1,0 +1,3 @@
+# nix develop links the pack from flake.nix here
+pack: .pyocd/Keil.STM32H5xx_DFP.pack
+target_override: stm32h533retx

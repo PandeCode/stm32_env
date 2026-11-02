@@ -1,0 +1,9 @@
+build/
+.cache/
+.cmsis/
+.pyocd/
+zig-out/
+.zig-cache/
+result
+.ruff_cache/
+.direnv

@@ -66,26 +66,27 @@
                      (set pinned (not= app :follow-the-file))
                      (use (if pinned app (or (buf-program) current)))))))
 
-(set use (fn [app]
-           (set current app)
-           (_G.Mcu.setup {: root
-                       :elf (string.format "%s/build/%s/%s.elf" app mode app)
-                       :build (dev (string.format "just build %s %s" app mode))
-                       :flash (dev (string.format "just flash %s %s" app mode))
-                       :server (dev "just gdbserver")
-                       :serial (dev "just serial")
-                       ;; same as just debug, pyocd shows no peripherals
-                       :reset ["set mem inaccessible-by-default off"
-                               "monitor reset halt"]
-                       :actions [[(.. "Program: " app
-                                      (if pinned "" ", follows the open file"))
-                                  pick]
-                                 [:Size (just (.. "size " app " " mode))]
-                                 [:Clean (just (.. "clean " app))]
-                                 ["Build every program"
-                                  (just (.. "build all " mode))]
-                                 ["Reset the board" (just :reset)]
-                                 ["Erase the flash" (just :erase)]]})))
+(set use
+     (fn [app]
+       (set current app)
+       (_G.Mcu.setup {: root
+                      :elf (string.format "%s/build/%s/%s.elf" app mode app)
+                      :build (dev (string.format "just build %s %s" app mode))
+                      :flash (dev (string.format "just flash %s %s" app mode))
+                      :server (dev "just gdbserver")
+                      :serial (dev "just serial")
+                      ;; same as just debug, pyocd shows no peripherals
+                      :reset ["set mem inaccessible-by-default off"
+                              "monitor reset halt"]
+                      :actions [[(.. "Program: " app
+                                     (if pinned "" ", follows the open file"))
+                                 pick]
+                                [:Size (just (.. "size " app " " mode))]
+                                [:Clean (just (.. "clean " app))]
+                                ["Build every program"
+                                 (just (.. "build all " mode))]
+                                ["Reset the board" (just :reset)]
+                                ["Erase the flash" (just :erase)]]})))
 
 ;; switching mid debug would point the keys at another elf
 (fn debugging []

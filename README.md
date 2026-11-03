@@ -73,6 +73,9 @@ A program's Makefile:
 - `uart`: a shell on the virtual com port, `on`, `off`, `toggle`
 - `temp`: the chip's temperature and VDDA on the virtual com port, from
   the ADC and ST's factory calibration
+- `env_testing`: CubeMX's default NUCLEO-H533RE project, LD2, B1 and the
+  com port through ST's BSP. Only the `.ioc` and `Core/`, generate it once
+  with `just cubemx` before it builds
 - `gfx`: CubeMX and HAL, the course's port of Adafruit's GFX and ST7735
   libraries drawing on the TFT shield over SPI2
 - `tft`: Adafruit's 1.8" TFT shield v2 (802). The joystick moves a square,

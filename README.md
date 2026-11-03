@@ -29,7 +29,7 @@ It links into the repo root:
     just flash                  # build and flash blink, LD2 blinks at 1 Hz
     just flash tft Release
     just debug uart             # flash, then gf2 stopped at main
-    just serial                 # tio on /dev/ttyACM0 at 115200
+    just serial                 # tio on the first /dev/ttyACM* at 115200
     just probe                  # lsusb, st-info --probe, pyocd list
 
 `.project.gf` puts buttons in gf2's Commands tab: step, restart, reflash,

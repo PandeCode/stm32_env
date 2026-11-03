@@ -73,9 +73,17 @@ probe:
     st-info --probe
     pyocd list
 
-# the board's virtual com port
-serial port="/dev/ttyACM0" baud="115200":
-    tio -b {{ baud }} {{ port }}
+# the board's virtual com port, the first /dev/ttyACM* unless one is given
+serial port="" baud="115200":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    port={{ port }}
+    if [ -z "$port" ]; then
+        ports=(/dev/ttyACM*)
+        [ -e "${ports[0]}" ] || { echo "no /dev/ttyACM*, is the board plugged in?" >&2; exit 1; }
+        port=${ports[0]}
+    fi
+    exec tio -b {{ baud }} "$port"
 
 # set up pins and clocks, generate the HAL and FreeRTOS code
 cubemx:

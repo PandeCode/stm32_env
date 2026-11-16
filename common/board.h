@@ -11,7 +11,7 @@
 void delay_us(uint32_t us);
 void delay_ms(uint32_t ms);
 
-// hangs, `b fail` in gdb stops there
+// hangs with interrupts off, `b fail` in gdb stops there
 [[noreturn]] void fail(void);
 
 // NOTE: the read back makes the write land before the peripheral is touched

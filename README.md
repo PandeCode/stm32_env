@@ -19,6 +19,7 @@ It links into the repo root:
 - `.cmsis/device`: ST's device headers, `stm32h5xx.h`
 - `.cmsis/core`: Arm's CMSIS 6 core headers (SysTick, SCB, NVIC)
 - `.cmsis/templates`: ST's startup, `system_stm32h5xx.c` and linker scripts
+- `.freertos`: the FreeRTOS kernel, for `rtos`
 
 ## just
 
@@ -61,6 +62,9 @@ A program's Makefile:
 
     include $(dir $(lastword $(MAKEFILE_LIST)))../common/firmware.mk
 
+`INCS` adds include folders of the program's own, relative to its folder like
+`SRCS`.
+
 ## Programs
 
 - `blink`: the default. PA5 (LD2) toggles every 500 ms off SysTick, only
@@ -80,6 +84,11 @@ A program's Makefile:
   libraries drawing on the TFT shield over SPI2
 - `tft`: Adafruit's 1.8" TFT shield v2 (802). The joystick moves a square,
   pressing it changes the color, A/B/C set the backlight
+- `rtos`: FreeRTOS with three tasks. `tick` wakes on every 1 ms tick and
+  measures how long after the tick it got to run. PC5 (CN10-6) goes high in
+  the tick interrupt and low when `tick` runs, so the pulse is that delay.
+  `report` prints the worst and average lateness and the
+  stack left in each task once a second on the com port. `blink` blinks LD2
 
 ## TFT shield
 
@@ -140,6 +149,8 @@ Pinned by hash in the flake, nothing copied in.
   v1.7.0
 - `.cmsis/core`: [ARM-software/CMSIS_6](https://github.com/ARM-software/CMSIS_6)
   v6.4.0
+- `.freertos`: [FreeRTOS/FreeRTOS-Kernel](https://github.com/FreeRTOS/FreeRTOS-Kernel)
+  V11.2.0 (MIT), without the third party port submodules
 - `.pyocd/`: the
   [STM32H5xx_DFP 2.3.1 pack](https://github.com/Open-CMSIS-Pack/STM32H5xx_DFP/releases/tag/v2.3.1),
   the SVD is `CMSIS/SVD/STM32H533.svd` from it

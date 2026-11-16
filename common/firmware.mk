@@ -17,6 +17,8 @@ ST := $(ROOT)/.cmsis/templates
 STARTUP ?= $(ST)/gcc/startup_stm32h533xx.s $(ST)/system_stm32h5xx.c
 LDSCRIPT := $(ST)/gcc/linker/STM32H533xx_FLASH.ld
 SRC := $(call rel,$(addprefix $(APPDIR)/,$(SRCS))) $(STARTUP)
+# include folders of the program's own, relative to its folder like SRCS
+INC := $(addprefix -I,$(call rel,$(addprefix $(APPDIR)/,$(INCS))))
 
 CC := arm-none-eabi-gcc
 MCU := -mcpu=cortex-m33 -mthumb -mfpu=fpv5-sp-d16 -mfloat-abi=hard
@@ -25,7 +27,8 @@ OPT_Release := -Os -g
 # nix develop links st's device and arm's core headers into .cmsis
 CFLAGS := $(MCU) -std=gnu23 $(OPT_$(MODE)) -Wall -Wextra \
 	-ffunction-sections -fdata-sections -DSTM32H533xx \
-	-I$(COMMON) -I$(ROOT)/lib -I$(ROOT)/.cmsis/device -I$(ROOT)/.cmsis/core
+	-I$(COMMON) -I$(ROOT)/lib -I$(ROOT)/.cmsis/device -I$(ROOT)/.cmsis/core \
+	$(INC)
 LDFLAGS := $(MCU) -nostartfiles --specs=nano.specs --specs=nosys.specs \
 	-Wl,--gc-sections -T$(LDSCRIPT) \
 	-Wl,-Map=$(OUT)/$(APP).map -Wl,--print-memory-usage

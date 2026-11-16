@@ -25,6 +25,8 @@ void delay_ms(uint32_t ms) {
 }
 
 void fail(void) {
+  // interrupts off too, or an rtos keeps running the other tasks
+  __disable_irq();
   for (;;)
     ;
 }

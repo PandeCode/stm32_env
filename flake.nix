@@ -67,6 +67,16 @@
             tag = "v6.4.0";
             hash = "sha256-35dWmCph2DFwZ6EwG+BCkwTo/57Ubnbjee0GicUWxDg=";
           };
+          # the FreeRTOS kernel for rtos/, without the third party ports
+          # it keeps in submodules
+          freertos-kernel = pkgs.fetchFromGitHub {
+            owner = "FreeRTOS";
+            repo = "FreeRTOS-Kernel";
+            tag = "V11.2.0";
+            forceFetchGit = true;
+            fetchSubmodules = false;
+            hash = "sha256-MTKNyA/nUaoX44cWEsRaPUphUgdMXzIxAfRRN7CmKPQ=";
+          };
           # register names for debuggers, from the same pack
           stm32h533-svd = pkgs.runCommand "STM32H533.svd" { nativeBuildInputs = [ pkgs.unzip ]; } ''
             unzip -p ${stm32h5-dfp} CMSIS/SVD/STM32H533.svd > $out
@@ -140,6 +150,7 @@
               ln -sfn ${cmsis-core}/CMSIS/Core/Include "$root/.cmsis/core"
               # st's startup, SystemInit and linker scripts
               ln -sfn ${cmsis-device-h5}/Source/Templates "$root/.cmsis/templates"
+              ln -sfn ${freertos-kernel} "$root/.freertos"
             '';
           };
         }
